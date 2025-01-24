@@ -1,0 +1,37 @@
+version: '3.3'
+
+services:
+    productpage:
+        container_name: g28-product-page
+        image: productpage/28
+  
+        ports:
+            - "9080:9080"
+        
+        links:
+            - "details"
+            - "reviews"
+    details:
+        container_name: g28-details
+        image: details/28 
+        
+        expose:
+            - 9080
+    reviews:
+        container_name: g28-reviews
+        image: reviews-v1/28
+        platform: linux/amd64
+        expose: 
+            - 9080
+        environment:
+            - SERVICE_VERSION=v1
+            - ENABLE_RATINGS=true
+            - STAR_COLOR=red
+        links:
+            - "ratings"
+    ratings:
+        container_name: g28-ratings
+        image: ratings/28
+        expose:
+            - 9080
+        
